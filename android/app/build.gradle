@@ -109,6 +109,11 @@ dependencies {
     implementation("com.facebook.react:react-android")
     implementation("com.facebook.react:flipper-integration")
 
+    implementation 'com.google.android.gms:play-services-location:21.3.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
+    implementation 'com.android.support:localbroadcastmanager:28.0.0'
+
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
     } else {

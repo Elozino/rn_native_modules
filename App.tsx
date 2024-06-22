@@ -1,9 +1,35 @@
-import {StyleSheet, Text, View, NativeModules, Button} from 'react-native';
-import React from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  NativeModules,
+  Button,
+  NativeEventEmitter,
+} from 'react-native';
+import React, {useEffect} from 'react';
 
-const {CalendarModule} = NativeModules;
+const {CalendarModule, LocationModule} = NativeModules;
+const locationEventEmitter = new NativeEventEmitter(LocationModule);
 
 const App = () => {
+  useEffect(() => {
+    const subscription = locationEventEmitter.addListener(
+      'onLocationUpdate',
+      good => {
+        console.log(good);
+      },
+    );
+    return () => subscription.remove();
+  }, []);
+
+  const startLocationService = () => {
+    LocationModule.startLocationService();
+  };
+
+  const stopLocationService = () => {
+    LocationModule.stopLocationService();
+  };
+
   return (
     <View style={styles.container}>
       <Text>App</Text>
@@ -12,6 +38,14 @@ const App = () => {
         onPress={() => {
           CalendarModule.createCalendarEvent('testName', 'testLocation');
         }}
+      />
+      <Button
+        title="Location Start Native Module"
+        onPress={startLocationService}
+      />
+      <Button
+        title="Location Stop Native Module"
+        onPress={stopLocationService}
       />
     </View>
   );
